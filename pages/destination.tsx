@@ -15,8 +15,8 @@ import { SWRConfig } from "swr";
 import { PlanetImage, PlanetInfo } from "components/Destination";
 import static_data from "json/db.json";
 import { getDatabaseServer, retrieve } from "utils/firebase";
+import Head from "next/head";
 // console.log(h5);
-
 export interface DestinationProps {
   SWRFallback: object;
 }
@@ -26,42 +26,48 @@ const Destination: NextPageWithLayout<DestinationProps> = ({ SWRFallback }) => {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   return (
-    <SWRConfig
-      value={{
-        fetcher: FetcherJsonServer,
-        fallback: SWRFallback,
-        dedupingInterval: MINUTE_TO_MS, // neu co goi lai cung api (url) thi trong 60s se tra ve stale (cache)
-        revalidateOnFocus: false,
-      }}
-    >
-      <Box
-        className="wrapper"
-        backgroundImage={{
-          mobile: "/assets/destination/background-destination-mobile.jpg",
-          tablet: "/assets/destination/background-destination-tablet.jpg",
-          desktop: "/assets/destination/background-destination-desktop.jpg",
+    <div>
+      <Head>
+        <title>Destination Page</title>
+        <meta name="robots" content="all" key="destination" />
+      </Head>
+      <SWRConfig
+        value={{
+          fetcher: FetcherJsonServer,
+          fallback: SWRFallback,
+          dedupingInterval: MINUTE_TO_MS, // neu co goi lai cung api (url) thi trong 60s se tra ve stale (cache)
+          revalidateOnFocus: false,
         }}
-        backgroundRepeat="no-repeat"
-        backgroundSize="cover"
       >
-        <Grid
-          autoFlow={{ mobile: "row", desktop: "column" }}
-          justifyContent={{ mobile: "unset", desktop: "space-around" }}
-          alignItems={{ mobile: "unset", desktop: "center" }}
-          justifyItems={{ mobile: "center", desktop: "unset" }}
-          // gap={{ mobile: "20", desktop: "0" }}
-          as={motion.div}
-          variants={pageTransitionVariants(isMobile)}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
+        <Box
+          className="wrapper"
+          backgroundImage={{
+            mobile: "/assets/destination/background-destination-mobile.jpg",
+            tablet: "/assets/destination/background-destination-tablet.jpg",
+            desktop: "/assets/destination/background-destination-desktop.jpg",
+          }}
+          backgroundRepeat="no-repeat"
+          backgroundSize="cover"
         >
-          <PlanetImage tabIndex={TabIndex} />
+          <Grid
+            autoFlow={{ mobile: "row", desktop: "column" }}
+            justifyContent={{ mobile: "unset", desktop: "space-around" }}
+            alignItems={{ mobile: "unset", desktop: "center" }}
+            justifyItems={{ mobile: "center", desktop: "unset" }}
+            // gap={{ mobile: "20", desktop: "0" }}
+            as={motion.div}
+            variants={pageTransitionVariants(isMobile)}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <PlanetImage tabIndex={TabIndex} />
 
-          <PlanetInfo TabIndex={TabIndex} setTabIndex={setTabIndex} />
-        </Grid>
-      </Box>
-    </SWRConfig>
+            <PlanetInfo TabIndex={TabIndex} setTabIndex={setTabIndex} />
+          </Grid>
+        </Box>
+      </SWRConfig>
+    </div>
   );
 };
 
