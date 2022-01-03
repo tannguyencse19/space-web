@@ -22,7 +22,6 @@ import { motion } from "framer-motion";
 import { Dispatch, SetStateAction } from "react";
 import useSWR from "swr";
 import { Planet } from "models";
-
 export interface PlanetInfoProps {
   TabIndex: number;
   setTabIndex: Dispatch<React.SetStateAction<number>>;
@@ -30,8 +29,12 @@ export interface PlanetInfoProps {
 
 export const PlanetInfo = ({ TabIndex, setTabIndex }: PlanetInfoProps) => {
   const { data: planet } = useSWR<Planet[]>("/destination");
+  // const { data: planet } = useSWR("/destination", {
+  //   fallbackData: static_data.destination, // if use this, remove type in useSWR<your_type>
+  // });
 
   return (
+    planet &&
     planet.length > 0 && (
       <Tabs
         variant="unstyled"
