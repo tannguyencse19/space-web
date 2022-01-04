@@ -18,10 +18,6 @@ export default class Document extends NextDocument {
     return (
       <Html lang="en">
         <Head>
-          <link
-            rel="canonical"
-            href="https://space-web-tannguyencse19.vercel.app/"
-          />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"

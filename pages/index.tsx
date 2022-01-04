@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { NextPageWithLayout } from "models";
 import { MainLayout } from "components/layout";
-import Head from "next/head";
+import { NextSeo } from "next-seo";
 // console.log(h5);
 
 export interface HomeProps {}
@@ -23,11 +23,32 @@ const Home: NextPageWithLayout<HomeProps> = ({}) => {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   return (
-    <div>
-      <Head>
-        <title>Home Page</title>
-        <meta name="robots" content="index,follow" key="homepage" />
-      </Head>
+    <>
+      <NextSeo
+        title="Home Page"
+        description={`So, you want to travel to Space. Let's face it. If you want to go to space, you might as well genuinely go to outer space and not hover kind of on the edge of it.`}
+        openGraph={{
+          url: "https://space-web-tannguyencse19.vercel.app/",
+          site_name: "space-web-tannguyencse19.vercel.app",
+          title: "Space Web Homepage",
+          description: "So, you want to travel to Space. Let's face it.",
+          images: [
+            {
+              url: "https://space-web-tannguyencse19.vercel.app/assets/SEO/home.jpg",
+              width: 1024,
+              height: 400,
+              alt: "Space Web Homepage image",
+              type: "image/jpeg",
+            },
+          ],
+        }}
+        // https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary
+        twitter={{
+          cardType: "summary_large_image",
+          site: "@space_web_tannguyencse19",
+          // Twitter will read the og:title, og:image and og:description tags for their card.
+        }}
+      />
       <Box
         className="wrapper"
         backgroundImage={{
@@ -127,7 +148,7 @@ const Home: NextPageWithLayout<HomeProps> = ({}) => {
           </Center>
         </Grid>
       </Box>
-    </div>
+    </>
   );
 };
 

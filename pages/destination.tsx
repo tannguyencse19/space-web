@@ -15,7 +15,7 @@ import { SWRConfig } from "swr";
 import { PlanetImage, PlanetInfo } from "components/Destination";
 import static_data from "json/db.json";
 import { getDatabaseServer, retrieve } from "utils/firebase";
-import Head from "next/head";
+import { NextSeo } from "next-seo";
 // console.log(h5);
 export interface DestinationProps {
   SWRFallback: object;
@@ -26,11 +26,26 @@ const Destination: NextPageWithLayout<DestinationProps> = ({ SWRFallback }) => {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   return (
-    <div>
-      <Head>
-        <title>Destination Page</title>
-        <meta name="robots" content="all" key="destination" />
-      </Head>
+    <>
+      <NextSeo
+        title="Destination Page"
+        description="Moon. See our planet as you’ve never seen it before. A perfect relaxing trip away to help regain perspective and come back refreshed. While you’re there, take in some history by visiting the Luna 2 and Apollo 11 landing sites."
+        openGraph={{
+          url: "https://space-web-tannguyencse19.vercel.app/destination",
+          site_name: "space-web-tannguyencse19.vercel.app",
+          title: "Space Web Destination",
+          description: "Moon. See our planet as you’ve never seen it before.",
+          images: [
+            {
+              url: "https://space-web-tannguyencse19.vercel.app/assets/SEO/destination.jpg",
+              width: 1024,
+              height: 540,
+              alt: "Space Web Destination image",
+              type: "image/jpeg",
+            },
+          ],
+        }}
+      />
       <SWRConfig
         value={{
           fetcher: FetcherJsonServer,
@@ -67,7 +82,7 @@ const Destination: NextPageWithLayout<DestinationProps> = ({ SWRFallback }) => {
           </Grid>
         </Box>
       </SWRConfig>
-    </div>
+    </>
   );
 };
 
