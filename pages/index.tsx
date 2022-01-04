@@ -8,9 +8,8 @@ import {
   pageTransitionVariants,
   exploreAuraVariants,
 } from "utils";
-import { routerShallowPush } from "components/helper";
+import NextLink from "next/link";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
 import { NextPageWithLayout } from "models";
 import { MainLayout } from "components/layout";
 import { NextSeo, BlogJsonLd } from "next-seo";
@@ -20,7 +19,6 @@ import { DefaultBlogJsonLd } from "utils/NextSeo";
 export interface HomeProps {}
 
 const Home: NextPageWithLayout<HomeProps> = ({}) => {
-  const router = useRouter();
   const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   return (
@@ -74,6 +72,7 @@ const Home: NextPageWithLayout<HomeProps> = ({}) => {
           <Box textAlign={{ mobile: "center", desktop: "start" }}>
             <Box>
               <Text
+                as="h5"
                 {...h5.return()}
                 fontSize={{
                   mobile: "16px",
@@ -84,6 +83,7 @@ const Home: NextPageWithLayout<HomeProps> = ({}) => {
                 So, you want to travel to
               </Text>
               <Text
+                as="h1"
                 {...h1.return()}
                 fontSize={{ mobile: h2.fontSize, tablet: h1.fontSize }}
               >
@@ -107,45 +107,52 @@ const Home: NextPageWithLayout<HomeProps> = ({}) => {
             </Text>
           </Box>
 
-          <Center
-            as={motion.div}
-            {...h4.return()}
-            fontSize={{ mobile: "14px", tablet: h4.fontSize }}
-            __css={{
-              aspectRatio: "1",
-            }}
-            position="relative"
-            borderRadius="50%"
-            p={{ mobile: "4", tablet: "10" }}
-            bgColor="white"
-            color="custom.1"
-            letterSpacing="2px"
-            onClick={() => routerShallowPush(router, "/destination")}
-            cursor="pointer"
-            variants={exploreAuraVariants}
-            whileHover="exploreHover"
-            whileTap="exploreHover"
-            transition={exploreAuraVariants.hoverTransition} // chakra syntax
-          >
-            Explore
-            <Center
-              as={motion.div}
-              __css={{
-                aspectRatio: "1",
-              }}
-              width="100%"
-              height="100%"
-              borderRadius="50%"
-              position="absolute"
-              bgColor="rgba(255,255,255,0.2)"
-              mixBlendMode="normal"
-              variants={exploreAuraVariants}
-              animate="visible"
-              whileHover="auraHover"
-              whileTap="auraHover"
-              transition={exploreAuraVariants.hoverTransition} // chakra syntax
-            />
-          </Center>
+          <NextLink href="/destination">
+            <a>
+              <Center
+                as={motion.div}
+                __css={{
+                  aspectRatio: "1",
+                }}
+                position="relative"
+                borderRadius="50%"
+                p={{ mobile: "4", tablet: "10" }}
+                bgColor="white"
+                cursor="pointer"
+                variants={exploreAuraVariants}
+                whileHover="exploreHover"
+                whileTap="exploreHover"
+                transition={exploreAuraVariants.hoverTransition} // chakra syntax
+              >
+                <Text
+                  as="h4"
+                  {...h4.return()}
+                  fontSize={{ mobile: "14px", tablet: h4.fontSize }}
+                  color="custom.1"
+                  letterSpacing="2px"
+                >
+                  Explore
+                </Text>
+                <Center
+                  as={motion.div}
+                  __css={{
+                    aspectRatio: "1",
+                  }}
+                  width="100%"
+                  height="100%"
+                  borderRadius="50%"
+                  position="absolute"
+                  bgColor="rgba(255,255,255,0.2)"
+                  mixBlendMode="normal"
+                  variants={exploreAuraVariants}
+                  animate="visible"
+                  whileHover="auraHover"
+                  whileTap="auraHover"
+                  transition={exploreAuraVariants.hoverTransition} // chakra syntax
+                />
+              </Center>
+            </a>
+          </NextLink>
         </Grid>
       </Box>
     </>
