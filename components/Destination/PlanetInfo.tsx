@@ -40,7 +40,6 @@ export const PlanetInfo = ({ TabIndex, setTabIndex }: PlanetInfoProps) => {
       variant="unstyled"
       isLazy
       w={{ mobile: "360px", tablet: "600px", desktop: "500px" }}
-      color="white"
       onChange={(index) => setTabIndex(index)}
     >
       <TabList justifyContent={{ mobile: "center", desktop: "start" }} gap="4">
@@ -114,7 +113,7 @@ export const PlanetInfo = ({ TabIndex, setTabIndex }: PlanetInfoProps) => {
                   <ListItem {...listSubH2.return()} color="custom.2">
                     est.&nbsp;travel time
                   </ListItem>
-                  <ListItem {...listSubH1.return()}>{tab.travel_time}</ListItem>
+                  <ListItem {...listSubH1.return()}>{tab.travel}</ListItem>
                 </List>
               </Grid>
             </motion.div>

@@ -19,12 +19,17 @@ const PlanetDefault = [
   },
 ];
 
+function localStringParser(str: string) {
+  return str.toLowerCase();
+}
+
 export interface PlanetImageProps {
   tabIndex: number;
 }
 
 export const PlanetImage = ({ tabIndex }: PlanetImageProps) => {
   const { data: planet } = useSWR<Planet[]>("/destination");
+  const imgUrlVariable = planet && localStringParser(planet[tabIndex].name);
 
   return planet && planet.length > 0 ? (
     <Box w="100%" position="relative">
@@ -56,7 +61,7 @@ export const PlanetImage = ({ tabIndex }: PlanetImageProps) => {
           exit="exit"
         >
           <Image
-            src={`/assets/destination/image-${planet[tabIndex].name}.webp`}
+            src={`/assets/destination/image-${imgUrlVariable}.webp`}
             alt="planet-img"
             w={{ mobile: "200px", tablet: "300px", desktop: "auto" }}
             // center image: https://stackoverflow.com/a/18869078/12897204

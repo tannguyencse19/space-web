@@ -8,5 +8,11 @@ export interface Planet {
   name: string;
   content: string;
   distance: string;
-  travel_time: string;
+  travel: string;
+}
+
+export interface Crew {
+  name: string;
+  role: string;
+  bio: string;
 }
