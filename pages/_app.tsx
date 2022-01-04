@@ -6,8 +6,9 @@ import { EmptyLayout } from "components/layout";
 import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
 
-// Dat trong nay chu khong trong document duoc
-import { NextSeo } from "next-seo";
+// Dat trong nay chu khong trong _document.tsx duoc
+import { DefaultSeo } from "next-seo";
+import { DefaultSeoConfig } from "utils/NextSeo";
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const { pathname } = useRouter();
@@ -26,7 +27,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           // Verify it work or not using onExitComplete hook
           // onExitComplete={() => window.scroll(150, 150)}
         >
-          <NextSeo canonical="https://space-web-tannguyencse19.vercel.app/" />
+          <DefaultSeo {...DefaultSeoConfig} />
 
           {/* Important: Assign key to each component (useRouter)
             for <AnimatePresence /> to detect route changing */}

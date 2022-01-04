@@ -13,7 +13,8 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { NextPageWithLayout } from "models";
 import { MainLayout } from "components/layout";
-import { NextSeo } from "next-seo";
+import { NextSeo, BlogJsonLd } from "next-seo";
+import { DefaultBlogJsonLd } from "utils/NextSeo";
 // console.log(h5);
 
 export interface HomeProps {}
@@ -26,10 +27,9 @@ const Home: NextPageWithLayout<HomeProps> = ({}) => {
     <>
       <NextSeo
         title="Home Page"
-        description={`So, you want to travel to Space. Let's face it. If you want to go to space, you might as well genuinely go to outer space and not hover kind of on the edge of it.`}
+        description="So, you want to travel to Space. Let's face it. If you want to go to space, you might as well genuinely go to outer space and not hover kind of on the edge of it."
         openGraph={{
           url: "https://space-web-tannguyencse19.vercel.app/",
-          site_name: "space-web-tannguyencse19.vercel.app",
           title: "Space Web Homepage",
           description: "So, you want to travel to Space. Let's face it.",
           images: [
@@ -42,12 +42,12 @@ const Home: NextPageWithLayout<HomeProps> = ({}) => {
             },
           ],
         }}
-        // https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary
-        twitter={{
-          cardType: "summary_large_image",
-          site: "@space_web_tannguyencse19",
-          // Twitter will read the og:title, og:image and og:description tags for their card.
-        }}
+      />
+      <BlogJsonLd
+        url="https://space-web-tannguyencse19.vercel.app/"
+        title="Space Web Homepage"
+        description="So, you want to travel to Space. Let's face it."
+        {...DefaultBlogJsonLd}
       />
       <Box
         className="wrapper"
