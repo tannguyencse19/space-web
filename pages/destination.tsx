@@ -12,15 +12,31 @@ import { NextPageWithLayout, Planet } from "models";
 import { MainLayout } from "components/layout";
 import { GetStaticProps } from "next";
 import { SWRConfig } from "swr";
-import { PlanetImage, PlanetInfo } from "components/Destination";
+import {
+  PlanetImageProps,
+  PlanetInfoProps,
+} from "components/Destination";
 import static_data from "json/db.json";
-import { getDatabaseServer, retrieve } from "utils/firebase";
+import { retrieve } from "utils/firebase";
 import { NextSeo, BlogJsonLd } from "next-seo";
 import { DefaultBlogJsonLd } from "utils/NextSeo";
+import dynamic from "next/dynamic";
 // console.log(h5);
 export interface DestinationProps {
   SWRFallback: object;
 }
+
+const DynamicPlanetImage = dynamic<PlanetImageProps>(
+  () => import("components/Destination").then((mod) => mod.PlanetImage)
+  // { ssr: false }
+  // No need if the page not using SSR. If using, use-cases are:
+  // - if there are library work only in client side
+  // - not need this component on the server
+);
+
+const DynamicPlanetInfo = dynamic<PlanetInfoProps>(() =>
+  import("components/Destination").then((mod) => mod.PlanetInfo)
+);
 
 const Destination: NextPageWithLayout<DestinationProps> = ({ SWRFallback }) => {
   const [TabIndex, setTabIndex] = React.useState(0);
@@ -82,9 +98,9 @@ const Destination: NextPageWithLayout<DestinationProps> = ({ SWRFallback }) => {
             animate="visible"
             exit="exit"
           >
-            <PlanetImage tabIndex={TabIndex} />
+            <DynamicPlanetImage tabIndex={TabIndex} />
 
-            <PlanetInfo TabIndex={TabIndex} setTabIndex={setTabIndex} />
+            <DynamicPlanetInfo TabIndex={TabIndex} setTabIndex={setTabIndex} />
           </Grid>
         </Box>
       </SWRConfig>
