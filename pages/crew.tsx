@@ -94,9 +94,25 @@ const Crew: NextPageWithLayout<CrewProps> = ({ SWRFallback }) => {
             animate="visible"
             exit="exit"
           >
-            <DynamicCrewInfo TabIndex={TabIndex} setTabIndex={setTabIndex} />
+            {isMobile ? (
+              <>
+                <DynamicCrewImage tabIndex={TabIndex} />
+                
+                <DynamicCrewInfo
+                  TabIndex={TabIndex}
+                  setTabIndex={setTabIndex}
+                />
+              </>
+            ) : (
+              <>
+                <DynamicCrewInfo
+                  TabIndex={TabIndex}
+                  setTabIndex={setTabIndex}
+                />
 
-            <DynamicCrewImage tabIndex={TabIndex} />
+                <DynamicCrewImage tabIndex={TabIndex} />
+              </>
+            )}
           </Grid>
         </Box>
       </SWRConfig>
