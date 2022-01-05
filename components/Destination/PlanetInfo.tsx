@@ -21,19 +21,16 @@ import {
   ListItem,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { Dispatch, SetStateAction } from "react";
-import useSWR from "swr";
-import { Planet } from "models";
+import React, { Dispatch, SetStateAction } from "react";
+import { usePlanet } from "pages/destination";
+
 export interface PlanetInfoProps {
   TabIndex: number;
-  setTabIndex: Dispatch<React.SetStateAction<number>>;
+  setTabIndex: Dispatch<SetStateAction<number>>;
 }
 
 export const PlanetInfo = ({ TabIndex, setTabIndex }: PlanetInfoProps) => {
-  const { data: planet } = useSWR<Planet[]>("/destination");
-  // const { data: planet } = useSWR("/destination", {
-  //   fallbackData: static_data.destination, // if use this, remove type in useSWR<your_type>
-  // });
+  const planet = usePlanet();
 
   return planet && planet.length > 0 ? (
     <Tabs
