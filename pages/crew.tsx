@@ -3,24 +3,22 @@ import {
   _afterUnderlineStyle,
   _sxHoverAfterUnderlineStyle,
   pageTransitionVariants,
-  FetcherJsonServer,
-  MINUTE_TO_MS,
 } from "utils";
 import { motion } from "framer-motion";
 import React from "react";
 import { NextPageWithLayout, Crew } from "models";
 import { MainLayout } from "components/layout";
 import { GetStaticProps } from "next";
-import { SWRConfig } from "swr";
 import { CrewImageProps, CrewInfoProps } from "components/Crew";
 import static_data from "json/db.json";
 import { retrieve } from "utils/firebase";
 import { NextSeo, BlogJsonLd } from "next-seo";
 import { DefaultBlogJsonLd } from "utils/NextSeo";
 import dynamic from "next/dynamic";
+import { contextCreator } from "utils/context";
 
 export interface CrewProps {
-  SWRFallback: object;
+  crew: Crew[];
 }
 
 const DynamicCrewImage = dynamic<CrewImageProps>(
@@ -32,7 +30,9 @@ const DynamicCrewInfo = dynamic<CrewInfoProps>(() =>
   import("components/Crew").then((mod) => mod.CrewInfo)
 );
 
-const Crew: NextPageWithLayout<CrewProps> = ({ SWRFallback }) => {
+export const [useCrew, CrewProvider] = contextCreator<Crew[]>();
+
+const Crew: NextPageWithLayout<CrewProps> = ({ crew }) => {
   const [TabIndex, setTabIndex] = React.useState(0);
   const [isMobile] = useMediaQuery("(max-width: 768px)");
 
@@ -63,41 +63,34 @@ const Crew: NextPageWithLayout<CrewProps> = ({ SWRFallback }) => {
         {...DefaultBlogJsonLd}
       />
 
-      <SWRConfig
-        value={{
-          fetcher: FetcherJsonServer,
-          fallback: SWRFallback,
-          dedupingInterval: MINUTE_TO_MS, // neu co goi lai cung api (url) thi trong 60s se tra ve stale (cache)
-          revalidateOnFocus: false,
+      <Box
+        //   className="wrapper"
+        h="100%" // do ko dung wrapper
+        backgroundImage={{
+          mobile: "/assets/crew/background-crew-mobile.jpg",
+          tablet: "/assets/crew/background-crew-tablet.jpg",
+          desktop: "/assets/crew/background-crew-desktop.jpg",
         }}
+        backgroundRepeat="no-repeat"
+        backgroundSize="cover"
       >
-        <Box
-          //   className="wrapper"
-          h="100%" // do ko dung wrapper
-          backgroundImage={{
-            mobile: "/assets/crew/background-crew-mobile.jpg",
-            tablet: "/assets/crew/background-crew-tablet.jpg",
-            desktop: "/assets/crew/background-crew-desktop.jpg",
-          }}
-          backgroundRepeat="no-repeat"
-          backgroundSize="cover"
+        <Grid
+          autoFlow={{ mobile: "row", desktop: "column" }}
+          justifyContent={{ mobile: "unset", desktop: "center" }}
+          alignItems={{ mobile: "unset", desktop: "end" }}
+          justifyItems={{ mobile: "center", desktop: "unset" }}
+          // gap={{ mobile: "20", desktop: "0" }}
+          as={motion.div}
+          variants={pageTransitionVariants(isMobile)}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
         >
-          <Grid
-            autoFlow={{ mobile: "row", desktop: "column" }}
-            justifyContent={{ mobile: "unset", desktop: "center" }}
-            alignItems={{ mobile: "unset", desktop: "end" }}
-            justifyItems={{ mobile: "center", desktop: "unset" }}
-            // gap={{ mobile: "20", desktop: "0" }}
-            as={motion.div}
-            variants={pageTransitionVariants(isMobile)}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
+          <CrewProvider value={crew}>
             {isMobile ? (
               <>
                 <DynamicCrewImage tabIndex={TabIndex} />
-                
+
                 <DynamicCrewInfo
                   TabIndex={TabIndex}
                   setTabIndex={setTabIndex}
@@ -113,9 +106,9 @@ const Crew: NextPageWithLayout<CrewProps> = ({ SWRFallback }) => {
                 <DynamicCrewImage tabIndex={TabIndex} />
               </>
             )}
-          </Grid>
-        </Box>
-      </SWRConfig>
+          </CrewProvider>
+        </Grid>
+      </Box>
     </>
   );
 };
@@ -123,13 +116,11 @@ const Crew: NextPageWithLayout<CrewProps> = ({ SWRFallback }) => {
 Crew.Layout = MainLayout;
 
 export const getStaticProps: GetStaticProps<CrewProps> = async (context) => {
-  const crew = await retrieve<Crew>("/crew");
+  const crew = await retrieve<Crew[]>("/crew");
 
   return {
     props: {
-      SWRFallback: {
-        "/crew": crew ? crew : static_data.crew,
-      },
+      crew: crew ? crew : static_data.crew,
     },
   };
 };

@@ -1,10 +1,9 @@
 import { Box, Text, useMediaQuery } from "@chakra-ui/react";
-import useSWR from "swr";
-import { Crew } from "models";
 import NextImage from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { planetTransitionVariants } from "utils/variants";
 import { h5 } from "utils/theme";
+import { useCrew } from "pages/crew";
 export interface CrewImageProps {
   tabIndex: number;
 }
@@ -14,7 +13,7 @@ function localStringParser(str: string) {
 }
 
 export const CrewImage = ({ tabIndex }: CrewImageProps) => {
-  const { data: crew } = useSWR<Crew[]>("/crew");
+  const crew = useCrew();
   const imgUrlVariable = crew && localStringParser(crew[tabIndex].name);
   const [isMobile] = useMediaQuery("(max-width: 768px)");
 
@@ -45,7 +44,7 @@ export const CrewImage = ({ tabIndex }: CrewImageProps) => {
           Meet your crew
         </Text>
       )}
-      
+
       <AnimatePresence exitBeforeEnter>
         <motion.div
           key={`crew-${crew[tabIndex].name}`}

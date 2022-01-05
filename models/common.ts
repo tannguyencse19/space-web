@@ -14,6 +14,7 @@ export interface Planet {
   distance: string;
   travel: string;
 }
+
 export interface Crew {
   name: string;
   role: string;

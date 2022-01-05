@@ -9,10 +9,7 @@ import React from "react";
 import { NextPageWithLayout, Planet } from "models";
 import { MainLayout } from "components/layout";
 import { GetStaticProps } from "next";
-import {
-  PlanetImageProps,
-  PlanetInfoProps,
-} from "components/Destination";
+import { PlanetImageProps, PlanetInfoProps } from "components/Destination";
 import static_data from "json/db.json";
 import { retrieve } from "utils/firebase";
 import { NextSeo, BlogJsonLd } from "next-seo";
@@ -36,15 +33,11 @@ const DynamicPlanetInfo = dynamic<PlanetInfoProps>(() =>
   import("components/Destination").then((mod) => mod.PlanetInfo)
 );
 
-
 export const [usePlanet, PlanetProvider] = contextCreator<Planet[]>();
 
 const Destination: NextPageWithLayout<DestinationProps> = ({ planet }) => {
-
   const [TabIndex, setTabIndex] = React.useState(0);
   const [isMobile] = useMediaQuery("(max-width: 768px)");
-
-  const [Hello, setHello] = React.useState<string | undefined>("Hello world");
 
   return (
     <>
@@ -73,36 +66,35 @@ const Destination: NextPageWithLayout<DestinationProps> = ({ planet }) => {
         {...DefaultBlogJsonLd}
       />
 
-        <Box
-          className="wrapper"
-          backgroundImage={{
-            mobile: "/assets/destination/background-destination-mobile.jpg",
-            tablet: "/assets/destination/background-destination-tablet.jpg",
-            desktop: "/assets/destination/background-destination-desktop.jpg",
-          }}
-          backgroundRepeat="no-repeat"
-          backgroundSize="cover"
+      <Box
+        className="wrapper"
+        backgroundImage={{
+          mobile: "/assets/destination/background-destination-mobile.jpg",
+          tablet: "/assets/destination/background-destination-tablet.jpg",
+          desktop: "/assets/destination/background-destination-desktop.jpg",
+        }}
+        backgroundRepeat="no-repeat"
+        backgroundSize="cover"
+      >
+        <Grid
+          autoFlow={{ mobile: "row", desktop: "column" }}
+          justifyContent={{ mobile: "unset", desktop: "space-around" }}
+          alignItems={{ mobile: "unset", desktop: "center" }}
+          justifyItems={{ mobile: "center", desktop: "unset" }}
+          // gap={{ mobile: "20", desktop: "0" }}
+          as={motion.div}
+          variants={pageTransitionVariants(isMobile)}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
         >
-          <Grid
-            autoFlow={{ mobile: "row", desktop: "column" }}
-            justifyContent={{ mobile: "unset", desktop: "space-around" }}
-            alignItems={{ mobile: "unset", desktop: "center" }}
-            justifyItems={{ mobile: "center", desktop: "unset" }}
-            // gap={{ mobile: "20", desktop: "0" }}
-            as={motion.div}
-            variants={pageTransitionVariants(isMobile)}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
-            <PlanetProvider value={planet}>
-          <DynamicPlanetImage tabIndex={TabIndex} />
+          <PlanetProvider value={planet}>
+            <DynamicPlanetImage tabIndex={TabIndex} />
 
-          <DynamicPlanetInfo TabIndex={TabIndex} setTabIndex={setTabIndex} />
-        </PlanetProvider>
-          </Grid>
-        </Box>
-
+            <DynamicPlanetInfo TabIndex={TabIndex} setTabIndex={setTabIndex} />
+          </PlanetProvider>
+        </Grid>
+      </Box>
     </>
   );
 };

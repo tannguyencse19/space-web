@@ -20,8 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { Dispatch } from "react";
-import useSWR from "swr";
-import { Crew } from "models";
+import { useCrew } from "pages/crew";
 
 export interface CrewInfoProps {
   TabIndex: number;
@@ -29,7 +28,7 @@ export interface CrewInfoProps {
 }
 
 export const CrewInfo = ({ TabIndex, setTabIndex }: CrewInfoProps) => {
-  const { data: crew } = useSWR<Crew[]>("/crew");
+  const crew = useCrew();
   const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   return crew && crew.length > 0 ? (

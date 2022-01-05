@@ -15,7 +15,6 @@ import {
   TabPanel,
   Divider,
   Grid,
-  Box,
   Text,
   List,
   ListItem,
