@@ -37,7 +37,7 @@ export const [usePlanet, PlanetProvider] = contextCreator<Planet[]>();
 
 const Destination: NextPageWithLayout<DestinationProps> = ({ planet }) => {
   const [TabIndex, setTabIndex] = React.useState(0);
-  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const [isMobileTablet] = useMediaQuery("(max-width: 1440px)");
 
   return (
     <>
@@ -83,8 +83,8 @@ const Destination: NextPageWithLayout<DestinationProps> = ({ planet }) => {
           justifyItems={{ mobile: "center", desktop: "unset" }}
           // gap={{ mobile: "20", desktop: "0" }}
           as={motion.div}
-          variants={pageTransitionVariants(isMobile)}
-          initial="hidden"
+          variants={pageTransitionVariants(isMobileTablet)}
+          initial="hidden" //BUG: result in viewport loss height/width due to transform-translate
           animate="visible"
           exit="exit"
         >

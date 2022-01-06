@@ -35,6 +35,7 @@ export const [useCrew, CrewProvider] = contextCreator<Crew[]>();
 const Crew: NextPageWithLayout<CrewProps> = ({ crew }) => {
   const [TabIndex, setTabIndex] = React.useState(0);
   const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const [isMobileTablet] = useMediaQuery("(max-width: 1440px)");
 
   return (
     <>
@@ -79,21 +80,22 @@ const Crew: NextPageWithLayout<CrewProps> = ({ crew }) => {
           justifyContent={{ mobile: "unset", desktop: "center" }}
           alignItems={{ mobile: "unset", desktop: "end" }}
           justifyItems={{ mobile: "center", desktop: "unset" }}
-          // gap={{ mobile: "20", desktop: "0" }}
+          gap={{ mobile: "20", desktop: "0" }}
           as={motion.div}
-          variants={pageTransitionVariants(isMobile)}
-          initial="hidden"
+          variants={pageTransitionVariants(isMobileTablet)}
+          initial="hidden" //BUG: transform-translate result in viewport loss height/width
           animate="visible"
           exit="exit"
         >
           <CrewProvider value={crew}>
-            {isMobile ? (
+            {/* {isMobile ? (
               <>
-                <DynamicCrewImage tabIndex={TabIndex} />
+                <DynamicCrewImage tabIndex={TabIndex} key="crew-image-mobile" />
 
                 <DynamicCrewInfo
                   TabIndex={TabIndex}
                   setTabIndex={setTabIndex}
+                  key="crew-info-mobile"
                 />
               </>
             ) : (
@@ -101,11 +103,15 @@ const Crew: NextPageWithLayout<CrewProps> = ({ crew }) => {
                 <DynamicCrewInfo
                   TabIndex={TabIndex}
                   setTabIndex={setTabIndex}
+                  key="crew-info"
                 />
 
-                <DynamicCrewImage tabIndex={TabIndex} />
+                <DynamicCrewImage tabIndex={TabIndex} key="crew-image" />
               </>
-            )}
+            )} */}
+            <DynamicCrewInfo TabIndex={TabIndex} setTabIndex={setTabIndex} />
+
+            <DynamicCrewImage tabIndex={TabIndex} />
           </CrewProvider>
         </Grid>
       </Box>

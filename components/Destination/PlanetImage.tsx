@@ -38,7 +38,7 @@ export const PlanetImage = ({ tabIndex }: PlanetImageProps) => {
         {...h5.return()}
         fontSize={{ mobile: "16px", tablet: "20px", desktop: h5.fontSize }}
         textAlign={{ mobile: "center", tablet: "unset" }}
-        mb={{ mobile: "80", tablet: "96", desktop: "16" }} // for Image
+        mb={{ mobile: "80", tablet: "96", desktop: "16" }} // for Image below
         ml={{ tablet: "10", desktop: "unset" }}
       >
         <Box

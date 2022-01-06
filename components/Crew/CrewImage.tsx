@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { planetTransitionVariants } from "utils/variants";
 import { h5 } from "utils/theme";
 import { useCrew } from "pages/crew";
+import { Fragment } from "react";
 export interface CrewImageProps {
   tabIndex: number;
 }
@@ -18,12 +19,8 @@ export const CrewImage = ({ tabIndex }: CrewImageProps) => {
   const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   return crew && crew.length > 0 ? (
-    <Box
-      position="relative"
-      width={{ mobile: "200px", tablet: "600px" }}
-      height={{ mobile: "300px", tablet: "800px" }}
-    >
-      {isMobile && (
+    <Fragment>
+      {/* {isMobile && (
         <Text
           as="h5"
           {...h5.return()}
@@ -43,10 +40,15 @@ export const CrewImage = ({ tabIndex }: CrewImageProps) => {
           </Box>
           Meet your crew
         </Text>
-      )}
+      )} */}
 
       <AnimatePresence exitBeforeEnter>
-        <motion.div
+        <Box
+          position="relative"
+          width={{ mobile: "177px", tablet: "456px", desktop: "568px" }}
+          height={{ mobile: "220px", tablet: "572px", desktop: "712px" }}
+          // above is for NextImage
+          as={motion.div}
           key={`crew-${crew[tabIndex].name}`}
           variants={planetTransitionVariants}
           initial="hidden"
@@ -56,12 +58,14 @@ export const CrewImage = ({ tabIndex }: CrewImageProps) => {
           <NextImage
             src={`/assets/crew/image-${imgUrlVariable}.png`}
             layout="fill"
-            objectFit="scale-down" // de no giu instric value du <Box /> width height co bang bao nhieu, ko expand nhu "contain"
+            // neu khong xac dinh width height truoc cua container
+            // thi dung scale-down de giu instrinsic value
+            objectFit="contain"
             objectPosition="bottom"
           />
-        </motion.div>
+        </Box>
       </AnimatePresence>
-    </Box>
+    </Fragment>
   ) : (
     <h1>CrewImage</h1>
   );

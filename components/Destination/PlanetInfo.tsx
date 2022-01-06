@@ -87,7 +87,7 @@ export const PlanetInfo = ({ TabIndex, setTabIndex }: PlanetInfoProps) => {
                   tablet: "16px",
                   desktop: "18px",
                 }}
-                m="0 auto" // textAlign helper
+                m={{mobile: "0 auto", desktop: "unset"}} // textAlign helper
               >
                 {tab.content}
               </Text>
