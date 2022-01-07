@@ -20,3 +20,12 @@ export interface Crew {
   role: string;
   bio: string;
 }
+
+export interface Tech {
+  name: string;
+  images: {
+    portrait: string;
+    landscape: string;
+  };
+  description: string;
+}
