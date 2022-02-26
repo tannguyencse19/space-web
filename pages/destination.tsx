@@ -10,12 +10,14 @@ import { NextPageWithLayout, Planet } from "models";
 import { MainLayout } from "components/layout";
 import { GetStaticProps } from "next";
 import { PlanetImageProps, PlanetInfoProps } from "components/Destination";
+
 import static_data from "json/db.json";
 import { retrieve } from "utils/firebase";
 import { NextSeo, BlogJsonLd } from "next-seo";
 import { DefaultBlogJsonLd } from "utils/NextSeo";
 import dynamic from "next/dynamic";
 import { contextCreator } from "utils/context";
+
 // console.log(h5);
 export interface DestinationProps {
   planet: Planet[];
@@ -36,6 +38,7 @@ const DynamicPlanetInfo = dynamic<PlanetInfoProps>(() =>
 export const [usePlanet, PlanetProvider] = contextCreator<Planet[]>();
 
 const Destination: NextPageWithLayout<DestinationProps> = ({ planet }) => {
+
   const [TabIndex, setTabIndex] = React.useState(0);
   const [isMobileTablet] = useMediaQuery("(max-width: 1440px)");
 
@@ -73,8 +76,6 @@ const Destination: NextPageWithLayout<DestinationProps> = ({ planet }) => {
           tablet: "/assets/destination/background-destination-tablet.jpg",
           desktop: "/assets/destination/background-destination-desktop.jpg",
         }}
-        backgroundRepeat="no-repeat"
-        backgroundSize="cover"
       >
         <Grid
           autoFlow={{ mobile: "row", desktop: "column" }}
